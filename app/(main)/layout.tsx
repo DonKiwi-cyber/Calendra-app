@@ -1,3 +1,4 @@
+import PrivateNavBar from "@/components/PrivateNavBar"
 import PublicNavBar from "@/components/PublicNavBar"
 import { currentUser } from "@clerk/nextjs/server"
 
@@ -10,9 +11,8 @@ export default async function MainLayout({
 
         return (
             <main className="relative">
-                <PublicNavBar/>
                 {/*Muestra la barra de navegación privada si hay un usuario activo, sino muestra la versión privada*/}
-                {/* {user ? <PrivateNavBar/> : <PublicNavBar/>} */}
+                {user ? <PrivateNavBar/> : <PublicNavBar/>}
                 {/*Renderiza a los hijos*/}
                 <section className="pt-36">
                     {children}
