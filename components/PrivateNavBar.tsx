@@ -5,6 +5,7 @@ Esto se hace para que los componentes 'hooks' y de escucha funcionen; en este ca
 
 import { PrivateNavLinks } from "@/constants";
 import { cn } from "@/lib/utils";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -60,7 +61,16 @@ export default function PrivateNavBar(){
                         );
                     })}
                 </div>
-            </section>    
+            </section>   
+
+            {/*Botón de usuario*/}
+              <div className='hover:scale-150 duration-500 '>
+                <SignedIn>
+                    {/* Monta el botón SOLO si el usuario tiene una cuenta activa*/}
+                    <UserButton/>
+                </SignedIn>
+        
+              </div>     
         </nav>
     )
 }
