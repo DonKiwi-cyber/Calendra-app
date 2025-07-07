@@ -13,7 +13,8 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Button } from "../ui/button"
 import Link from "next/link"
 import { useTransition } from "react"
-import { createEvent, deleteEvent, updateEvent } from "@/server/actions/actions"
+import { createEvent, deleteEvent, updateEvent } from "@/server/actions/events"
+import { useRouter } from "next/navigation"
 
 //Este componente gestionará las acciones de tipo CRUD para los eventos
 export default function EventForm({
@@ -36,6 +37,7 @@ export default function EventForm({
     // 2. `startDeleteTransition` - Una función que podemos usar para iniciar la operación asíncrona, como eliminar el evento en este caso
 
     const [isDeletePending, startDeleteTransition] = useTransition()
+    const router = useRouter()
 
     //Crea y maneja un objeto Form, el cual será moldeado en base a la estructura de "eventsFormSchema"
     const form = useForm<z.infer<typeof eventFormSchema>>({
@@ -59,7 +61,7 @@ export default function EventForm({
         const action =  event == null ? createEvent : updateEvent.bind(null, event.id)
         try {
             await action(values)
-
+            router.push('/events')
         } catch (error: any) {
             //Maneja y muestra cualquier evento que ocurra durnte el guardado/editado
           form.setError("root", {

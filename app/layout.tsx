@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "sonner";
 
 //Geist y GeistMono son fuentes de Google utilizadas por Next. Aquí se definen como variable de manera que
 //se puedan reutilizar en la página de estilos css o directamente en un componente
@@ -34,6 +35,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased animate-fade-in`}
       >
         {children}
+        <Toaster/>
       </body>
     </html>
     </ClerkProvider>

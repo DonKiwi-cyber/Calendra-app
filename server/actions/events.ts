@@ -40,10 +40,6 @@ export async function createEvent(
         /*Revalida el 'path' para asegurar que la página salve información fresca 
         después de la operación*/
         revalidatePath('/events')
-
-        //Redirecciona al usuario al módulo de eventos luego de hacer la operación
-        redirect('/events')
-
     }
 }
     
@@ -88,9 +84,6 @@ export async function updateEvent(
         /*Revalida el 'path' para asegurar que la página salve información fresca 
         después de la operación*/
         revalidatePath('/events')
-
-        //Redirecciona al usuario al módulo de eventos luego de hacer la operación
-        redirect('/events')
     }
 }
 
@@ -128,8 +121,27 @@ export async function updateEvent(
         /*Revalida el 'path' para asegurar que la página salve información fresca 
         después de la operación*/
         revalidatePath('/events')
-
-        //Redirecciona al usuario al módulo de eventos luego de hacer la operación
-        redirect('/events')
     }
+}
+
+//Infiere el tipo de una fila del esquema EventTable
+type EventRow = typeof EventTable.$inferSelect
+
+//Función para obtener todos los eventos (activos e inactivos) de un usuario
+export async function getEvents(clerkUserId: string): Promise<EventRow[]> {
+    //Obtiene los eventos de la BD donde el ID del usuario coincida con el ID dado
+    const events = await db.query.EventTable.findMany({
+    
+    //where: Define un filtro para la petición query
+    //({ clerkUserId: userIdCol }, { eq }) => ... — Es una función destructurada:
+    // clerkUserId es la variable que contiene el ID del usuario
+    /*userIdCol es una referencia a una columna en la BD, renombrando la variable clerkUserId 
+    a userIdCol para más claridad*/
+    where: ({ clerkUserId: userIdCol }, { eq }) => eq(userIdCol, clerkUserId),
+
+    //Los eventos son ordenados alfabéticamente por el nombre
+    orderBy: ({ name }, { asc, sql }) => asc(sql`lower(${name})`),
+    })
+
+    return events
 }
