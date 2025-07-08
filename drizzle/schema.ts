@@ -51,11 +51,11 @@ export const scheduleDayOfWeekEnum = pgEnum(
 export const SchedulesAvailabilityTable = pgTable(
     "schedulesAvailability", {
         id: uuid("id").primaryKey().defaultRandom(),
-        scheduleId: uuid("scheduleId").notNull().references(() => //Hace referencia al ID de una agenda (llave foránea)
-            ScheduleTable.id, {onDelete: "cascade"} //"cascade" significa que la fila entera será eliminada cuando el valor original sea borrado
+        scheduleId: uuid("scheduleId").notNull().references(() => // Hace referencia al ID de una agenda (llave foránea)
+            ScheduleTable.id, {onDelete: "cascade"} // "cascade" significa que la fila entera será eliminada cuando el valor original sea borrado
         ),
-        startTime: text("startTime").notNull(), //tiempo de inicio de disponibilidad
-        endTime: text("endTime").notNull(), //tiempo de finalización de disponibilidad
+        startTime: text("startTime").notNull(), // Tiempo de inicio de disponibilidad
+        endTime: text("endTime").notNull(), // Tiempo de finalización de disponibilidad
         dayOfWeek: scheduleDayOfWeekEnum("dayOfWeek").notNull(), //día de la semana
     },
     table => ([
