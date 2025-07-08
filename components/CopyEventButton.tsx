@@ -61,7 +61,7 @@ export function CopyEventButton({
             setCopyState("error") // Al fallar, muestra el mensaje "Error"
             setTimeout(() => setCopyState("idle"), 2000) // Reset after 2 seconds
           })
-      }
+    }
 
     return (
         <Button

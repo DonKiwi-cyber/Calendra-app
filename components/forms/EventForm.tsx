@@ -190,13 +190,14 @@ export default function EventForm({
                                 className="bg-red-500 hover:bg-red-700 cursor-pointer"
                                 disabled={isDeletePending || form.formState.isSubmitting}
                                 onClick={() => {
-                                    // Start a React transition to keep the UI responsive during this async operation
+                                    // Comienza una transición de React que mantendrá la interfaz responsiva mientras se realiza el proceso
                                     startDeleteTransition(async () => {
                                         try {
-                                            // Attempt to delete the event by its ID
+                                            // Intenta eliminar el evento mediante su ID
                                             await deleteEvent(event.id)
+                                            router.push('/events')
                                         } catch (error: any) {
-                                            // If something goes wrong, show an error at the root level of the form
+                                            // Si falla, muestra un error a nivel raíz del formulario
                                             form.setError("root", {
                                                 message: `Ocurrió un error al intentar eliminar el evento: 
                                                 ${error.message}`,

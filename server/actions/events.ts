@@ -145,3 +145,14 @@ export async function getEvents(clerkUserId: string): Promise<EventRow[]> {
 
     return events
 }
+
+// Recupera un evento específico
+export async function getEvent(userId: string, eventId: string): Promise<EventRow | undefined> {
+    // Recupera el primer evento encontrado con las características ingresadas (ID del vento y del usuario)
+    const event = await db.query.EventTable.findFirst({ 
+        where: ({ id, clerkUserId }, { and, eq }) =>
+        and(eq(clerkUserId, userId), eq(id, eventId)), // Se asegura que el evento pertenezca al usuario actual
+    })
+
+    return event ?? undefined // Regresa un valor 'undefined' si no se encontró el evento
+}
