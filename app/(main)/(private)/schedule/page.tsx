@@ -4,6 +4,7 @@ agenda del usuario a la BD, renderizándola en un componente Card,
 mostrando el componente 'ScheduleForm' con la información recuperada. 
 Esto permitirá al usuario ver y gestionar su agenda desde esta página. */
 
+import { ScheduleForm } from "@/components/forms/ScheduleForm"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { getSchedule } from "@/server/actions/schedule"
 import { auth } from "@clerk/nextjs/server"
@@ -23,7 +24,7 @@ export default async function SchedulePage() {
                     <CardTitle>Agenda</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    {/* <ScheduleForm schedule={schedule} />  */}
+                    <ScheduleForm schedule={schedule} /> 
                     {/* Renderiza el componente ScheduleForm con la información */}
                 </CardContent>
             </Card>
