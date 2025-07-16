@@ -17,3 +17,13 @@ export function formatEventDescription(durationInMinutes: number) : string {
     //Regresa ambos
     return `${hoursString} ${minutesString}`
 }
+
+  // Obtiene el string corto para una zona horaria dada, como "+02:00"
+    export function formatTimezoneOffset(timezone: string) {
+      return new Intl.DateTimeFormat(undefined, {
+        timeZone: timezone,
+        timeZoneName: "shortOffset", // Requiere la declaración para recuperar del nombre corto
+      })
+        .formatToParts(new Date()) // Formatea la fecha actual en partes
+        .find(part => part.type == "timeZoneName")?.value // Extrae la parte de la zona horaria
+    }
