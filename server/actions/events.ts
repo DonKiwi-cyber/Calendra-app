@@ -157,18 +157,23 @@ export async function getEvent(userId: string, eventId: string): Promise<EventRo
     return event ?? undefined // Regresa un valor 'undefined' si no se encontró el evento
 }
 
-// Async function to fetch all active (public) events for a specific user
+// Define un nuevo tipo para eventos públicos que estarán activos
+// Remueve el campo genérico 'isActive' y lo reemplaza con un booleano true literal
+export type PublicEvent = Omit<EventRow, "isActive"> & { isActive: true }
+// Esto garantiza que los eventos de este tipo sean activos
+
+// Obtiene y devuelve todos los eventos activos públicos para un usuario en específico
 export async function getPublicEvents(clerkUserId: string): Promise<PublicEvent[]> {
-  // Query the database for events where:
-  // - the clerkUserId matches
-  // - the event is marked as active
-  // Events are ordered alphabetically (case-insensitive) by name
+  // Hace peticiones a la tabla Eventos donde:
+  // - El clerkUserId sea igual
+  // - El evento es marcado como activo
+  // Los eventos son ordenados alfabéticamente por el nombre
   const events = await db.query.EventTable.findMany({
     where: ({ clerkUserId: userIdCol, isActive }, { eq, and }) =>
       and(eq(userIdCol, clerkUserId), eq(isActive, true)),
     orderBy: ({ name }, { asc, sql }) => asc(sql`lower(${name})`),
   })
 
-  // Cast the result to the PublicEvent[] type to indicate all are active
+  // Encapsula los resultados en el tipo PublicEvent para entregar un arreglo con los eventos activos
   return events as PublicEvent[]
 }
